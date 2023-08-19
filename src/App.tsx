@@ -16,7 +16,7 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false)
   const dispatch = useDispatch();
 
-  const checkLoginStatus = () => {
+  const checkLoginStatus =  useCallback(() => {
     http.get('/validate')
       .then((response) => {
         dispatch(updateUser(response.data));
