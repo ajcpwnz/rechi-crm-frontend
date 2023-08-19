@@ -1,7 +1,6 @@
 import React from 'react';
 import {AppBar, Toolbar, Typography, Tabs, Tab} from '@mui/material'; 
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { DrawerComp } from '../drawer-comp/DrawerComp';
 import VerticalTabs from '../vertical-tabs/VerticalTabs';
 
 export const Header = () => {
