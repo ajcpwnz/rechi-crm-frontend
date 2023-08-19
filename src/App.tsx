@@ -1,6 +1,10 @@
+import { lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { Layout } from './components/UI/Layout/Layout';
-import SignIn from './pages/Login';
+// import SignIn from './pages/Login';
+// import Layout from './components/Layout/Layout';
+
+const SignIn = lazy(() => import('./pages/Login'));
+const Layout = lazy(() => import('./components/Layout/Layout'));
 
 function App() {
   return (
