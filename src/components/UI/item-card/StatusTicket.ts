@@ -10,9 +10,9 @@
 //         Donors = 'Донори'
 //     }
 
-    
+
 export enum StatusTicket  {
     APPLICATIONS = 'Заявки',
     ARCHIVED_APPLICATIONS = 'Архів',
-    DONORS = 'Донори'
+    DONORS = 'Донори',
 }

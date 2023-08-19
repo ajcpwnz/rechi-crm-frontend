@@ -1,4 +1,3 @@
-import { StatusTicket } from "../item-card/StatusTicket"
 import { useState } from "react"
 import { ItemCardDetailProps } from "./ItemCardDetailProps"
 
@@ -12,7 +11,7 @@ const initialState: ItemCardDetailProps = {
     complete: "",
     family: 0,
     textInfo: "",
-    status: StatusTicket.Pending_Validation,
+    status: 'status',
     phone: "",
 }
 
@@ -20,7 +19,7 @@ export const ItemDetailCard: React.FC<ItemCardDetailProps> = () => {
     const [data, setData] = useState<ItemCardDetailProps>(initialState)
 
     setData(prev => prev)
-    
+
     return (
         <div>
             <h2>Контактна інформація</h2>

@@ -4,10 +4,10 @@ import NotificationsIcon from '@mui/icons-material/Notifications';
 import VerticalTabs from '../vertical-tabs/VerticalTabs';
 
 export const Header = () => {
-    return (
-        <>
- <React.Fragment>
-<AppBar sx={{background: "#FEFBFF"}}> 
+  return (
+    <>
+      <React.Fragment>
+        <AppBar sx={{ background: '#FEFBFF' }}>
           <Toolbar>
 
 <Typography style={{color: "#005AC1", fontSize: "24px", fontWeight: 700,

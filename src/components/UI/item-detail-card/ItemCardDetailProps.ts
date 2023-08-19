@@ -1,4 +1,3 @@
-import { StatusTicket } from "../item-card/StatusTicket"
 
 export interface ItemCardDetailProps {
     id: number,
@@ -10,6 +9,6 @@ export interface ItemCardDetailProps {
     complete: string,
     family: number,
     textInfo: string,
-    status: StatusTicket,
+    status: string,
     phone: string,
 }
