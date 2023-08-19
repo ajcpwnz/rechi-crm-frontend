@@ -10,13 +10,17 @@ export const Header = () => {
  <React.Fragment>
 <AppBar sx={{background: "#FEFBFF"}}> 
           <Toolbar>
- {window.innerWidth < 480 && <DrawerComp/>} 
+
 <Typography style={{color: "#005AC1", fontSize: "24px", fontWeight: 700,
 lineHeight: "40px"}}>rechi.crm</Typography>
+
+<span style={{color: "#005AC1", fontSize: "24px", fontWeight: 700,
+lineHeight: "40px"}}>rechi.crm</span>
+
 <Tabs value={0} sx={{marginLeft: "auto"}}>
-    <Tab icon={<NotificationsIcon sx={{fill: "#44474F"}}/>} value={0}/>
+    <Tab label={<NotificationsIcon sx={{fill: "#44474F"}}/>} value={0 } />
 </Tabs>
-</Toolbar>   
+</Toolbar>
 </AppBar>
 </React.Fragment> 
 {window.innerWidth > 480 && <VerticalTabs/>}
