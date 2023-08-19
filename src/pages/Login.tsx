@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 
 const defaultTheme = createTheme();
 
-export default function SignIn() {
+export default function SignIn({ setLoggedIn }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -38,6 +38,7 @@ export default function SignIn() {
         .then((response) => {
           dispatch(updateUser(response.data));
           localStorage.setItem('authToken', response.data.token);
+          setLoggedIn(true)
           navigate('/admin');
         })
         .catch((error) => {
