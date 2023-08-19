@@ -2,6 +2,7 @@ import { Suspense, lazy, useEffect, useState, useCallback } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { SingleRequestPage } from './pages/SingleRequestPage/SingleRequestPage'
 import { http } from './utils/http'
 
 
@@ -56,14 +57,16 @@ function App() {
                 <>
                   <Route path="/admin" element={<Layout />}>
                     <Route index element={<RequestPage />} />
-                    <Route path="requests" element={<RequestPage />} />
+                    <Route path="request-submissions" element={<RequestPage />} />
+
+                    <Route path="request/:id" element={<SingleRequestPage />} />
                     <Route
-                      path="donation-requests"
+                      path="donation-request-submissions"
                       element={<DonationRequestsPage />}
                     />
                     <Route
-                      path="pet-donation-requests"
-                      element={<PetDonationRequests />}
+                      path="pet-donation-request-submissions"
+                      element={<PetDonationReq  uests />}
                     />
                   </Route>
                   <Route path="*" element={<NotFound />} />
