@@ -1,5 +1,5 @@
-import * as React from "react";
-import {useDispatch} from 'react-redux';
+import React, { useState } from "react";
+import { useDispatch } from "react-redux";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -13,14 +13,13 @@ import axios from "axios";
 import { updateUser } from "../redux/auth/authslice";
 import { useNavigate } from "react-router-dom";
 
-
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignIn() {
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
+
+  const [isFormValid, setIsFormValid] = useState(false);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -30,11 +29,9 @@ export default function SignIn() {
       password: data.get("password"),
     });
 
-
     const email = data.get("email");
     const password = data.get("password");
-    
-    // Проверка данных формы перед отправкой на сервер
+
     if (email && password) {
       axios
         .post("http://64.226.92.178:8000/api/login", { email, password })
@@ -44,9 +41,13 @@ export default function SignIn() {
           navigate('/admin');
         })
         .catch((error) => {
-          
+          if (error.response.status === 401) {
+            setIsFormValid(true);
+          }
           console.error(error);
         });
+    } else {
+      setIsFormValid(false);
     }
   };
 
@@ -83,6 +84,7 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
+              error={isFormValid}
             />
             <TextField
               margin="normal"
@@ -93,6 +95,7 @@ export default function SignIn() {
               type="password"
               id="password"
               autoComplete="current-password"
+              error={isFormValid}
             />
             <Button
               type="submit"
