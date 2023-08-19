@@ -16,7 +16,12 @@ import { a18n } from "../a18n";
 
 const defaultTheme = createTheme();
 
-export default function SignIn({ setLoggedIn }) {
+
+interface SignInProps {
+  setLoggedIn: (bool: boolean) => void
+}
+
+export default ({setLoggedIn}: SignInProps) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
