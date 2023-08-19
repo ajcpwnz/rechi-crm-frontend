@@ -15,13 +15,23 @@ If you are developing a production application, we recommend updating the config
 
 ```js
    parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-   },
+    ecmaVersion: 'latest';
+    sourceType: 'module';
+    project: ['./tsconfig.json', './tsconfig.node.json'];
+    tsconfigRootDir: __dirname;
+   }
 ```
 
 - Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
 - Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
 - Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+
+FOLDERS:
+- components - шось без логіки чисто для візуалу
+- - UI - чисто html з базовми стіляхами
+- services - має бузнес логіку
+- pages - чисто структура сторінки з використанням компонентів
+- hooks - робота з АПІ, якщо буде сложно звіть поміч
+- utils - кастомізовані функції для вузькогопрофільної роботи з даними. Іншими словами всю ту хтонь яка не вкладається в сесвіс чи хук
+- redux - все що Redux
+- constants - моделі, константи, інтерфеси, класи, enums, Type
