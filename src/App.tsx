@@ -1,7 +1,8 @@
-import { Suspense, lazy, useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useState, useCallback } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import axios from "axios";
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 
 import { updateUser } from "./redux/auth/authslice";
 import Loader from './pages/Loader';
@@ -15,7 +16,7 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false)
   const dispatch = useDispatch();
 
-  const checkLoginStatus = () => {
+  const checkLoginStatus = useCallback(() => {
     axios
       .get("http://64.226.92.178:8000/api/validate", {
         headers: {
@@ -33,17 +34,21 @@ function App() {
         console.error(error)
         setIsLoaded(true)
       });
-  }
+  }, [dispatch])
 
   window.addEventListener('locationchange', checkLoginStatus)
   window.addEventListener('hashchange', checkLoginStatus)
 
   useEffect(() => {
     checkLoginStatus()
-  }, [])
+  }, [checkLoginStatus])
+
+  const defaultTheme = createTheme();
 
   return (
     <>
+ 
+ <ThemeProvider theme={defaultTheme}>
       <Suspense>
       <Routes>
         {isLoaded ? 
@@ -64,6 +69,7 @@ function App() {
         }
       </Routes>
       </Suspense>
+      </ThemeProvider>
     </>
   );
 }
