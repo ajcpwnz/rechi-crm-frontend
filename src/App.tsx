@@ -1,8 +1,8 @@
 import { Suspense, lazy, useEffect, useState, useCallback } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import axios from "axios";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import { http } from './utils/http'
 
 import { updateUser } from "./redux/auth/authslice";
 import Loader from './pages/Loader';
@@ -16,13 +16,8 @@ function App() {
   const [isLoaded, setIsLoaded] = useState(false)
   const dispatch = useDispatch();
 
-  const checkLoginStatus = useCallback(() => {
-    axios
-      .get("http://64.226.92.178:8000/api/validate", {
-        headers: {
-          'Authorization': `Bearer ${localStorage.getItem('authToken')}`
-        }
-      } )
+  const checkLoginStatus = () => {
+    http.get('/validate')
       .then((response) => {
         dispatch(updateUser(response.data));
         if (response.data) {
@@ -30,8 +25,7 @@ function App() {
           setIsLoaded(true)
         }
       })
-      .catch((error) => {
-        console.error(error)
+      .catch(() => {
         setIsLoaded(true)
       });
   }, [dispatch])
@@ -51,7 +45,7 @@ function App() {
  <ThemeProvider theme={defaultTheme}>
       <Suspense>
       <Routes>
-        {isLoaded ? 
+        {isLoaded ?
           <>
             {loggedIn ?
               <>
