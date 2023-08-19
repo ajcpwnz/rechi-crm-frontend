@@ -1,4 +1,5 @@
 import * as React from "react";
+import {useDispatch} from 'react-redux';
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -9,12 +10,18 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
+import { updateUser } from "../redux/auth/authslice";
+import { useNavigate } from "react-router-dom";
 
 
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignIn() {
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -23,18 +30,18 @@ export default function SignIn() {
       password: data.get("password"),
     });
 
+
     const email = data.get("email");
     const password = data.get("password");
-
+    
     // Проверка данных формы перед отправкой на сервер
     if (email && password) {
       axios
         .post("http://64.226.92.178:8000/api/login", { email, password })
         .then((response) => {
-         
-          console.log(response.data);
-
-          
+          dispatch(updateUser(response.data));
+          localStorage.setItem('authToken', response.data.token);
+          navigate('/admin');
         })
         .catch((error) => {
           
