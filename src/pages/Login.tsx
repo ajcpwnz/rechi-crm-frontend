@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-export default function SignIn() {
+export default function SignIn({ setLoggedIn }) {
   const dispatch = useDispatch();
 
   const navigate = useNavigate();
@@ -41,10 +41,10 @@ export default function SignIn() {
         .then((response) => {
           dispatch(updateUser(response.data));
           localStorage.setItem('authToken', response.data.token);
+          setLoggedIn(true)
           navigate('/admin');
         })
         .catch((error) => {
-          
           console.error(error);
         });
     }
