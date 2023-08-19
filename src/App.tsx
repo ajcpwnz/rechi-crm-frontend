@@ -1,16 +1,21 @@
-// import { useState } from 'react'
-// import { Dashboard } from "@mui/icons-material"
-// import  Login from "./pages/Login"
-import  Admin from "./pages/Admin";
+import { lazy } from 'react';
+import { Routes, Route } from 'react-router-dom';
+
+const SignIn = lazy(() => import('./pages/Login'));
+const Layout = lazy(() => import('./components/Layout/Layout'));
+const NotFound = lazy(() => import('./pages/ErrorPages/NotFound'));
 
 function App() {
   return (
     <>
-    
-    {/* < Login /> */}
-    <Admin />
+      <Routes>
+        <Route path="/" element={<SignIn />} />
+        <Route path="/login" element={<SignIn />} />
+        <Route path="/admin" element={<Layout />} />
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
