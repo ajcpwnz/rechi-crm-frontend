@@ -1,6 +1,7 @@
-import { Suspense, lazy, useEffect, useState } from 'react';
+import { Suspense, lazy, useEffect, useState, useCallback } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { http } from './utils/http'
 
 import { updateUser } from "./redux/auth/authslice";
@@ -27,17 +28,21 @@ function App() {
       .catch(() => {
         setIsLoaded(true)
       });
-  }
+  }, [dispatch])
 
   window.addEventListener('locationchange', checkLoginStatus)
   window.addEventListener('hashchange', checkLoginStatus)
 
   useEffect(() => {
     checkLoginStatus()
-  }, [])
+  }, [checkLoginStatus])
+
+  const defaultTheme = createTheme();
 
   return (
     <>
+ 
+ <ThemeProvider theme={defaultTheme}>
       <Suspense>
       <Routes>
         {isLoaded ?
@@ -58,6 +63,7 @@ function App() {
         }
       </Routes>
       </Suspense>
+      </ThemeProvider>
     </>
   );
 }
