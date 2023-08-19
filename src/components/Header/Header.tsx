@@ -1,7 +1,7 @@
 import React from 'react';
 import {AppBar, Tabs, Tab, Toolbar} from '@mui/material'; 
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import { DrawerComp } from '../DrawerComp/DrawerComp';
+import { DrawerComp } from '../drawerComp/DrawerComp';
 
 export const Header = () => {
     return (
