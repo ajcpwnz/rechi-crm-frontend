@@ -1,14 +1,19 @@
-// import { useState } from 'react'
-import  Login from "./pages/Login"
+import { lazy } from 'react';
+import { Routes, Route } from 'react-router-dom';
 
+const SignIn = lazy(() => import('./pages/Login'));
+const Layout = lazy(() => import('./components/Layout/Layout'));
 
 function App() {
   return (
     <>
-    
-    < Login />
+      <Routes>
+        <Route path="/" element={<SignIn />} />
+        <Route path="/login" element={<SignIn />} />
+        <Route path="/admin" element={<Layout />} />z
+      </Routes>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
