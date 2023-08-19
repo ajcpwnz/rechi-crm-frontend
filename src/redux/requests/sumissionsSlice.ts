@@ -1,4 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState } from '../store.ts'
 
 
 interface SubmissionFields {
@@ -88,3 +89,7 @@ const submissionsSlice = createSlice({
 export const { submissionsRetreived } = submissionsSlice.actions;
 
 export const reducer = submissionsSlice.reducer;
+
+export const selectSubmissions = (state: RootState, type: SubmissionType) => {
+  return  state.submissions[type]
+}

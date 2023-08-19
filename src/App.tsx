@@ -2,7 +2,6 @@ import { Suspense, lazy, useEffect, useState, useCallback } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { getSubmissions } from './services/requests.ts'
 import { http } from './utils/http'
 
 
@@ -34,12 +33,6 @@ function App() {
         setIsLoaded(true)
       });
   }, [dispatch])
-
-  useEffect(() => {
-    getSubmissions('donation')(dispatch)
-    getSubmissions('request')(dispatch)
-    getSubmissions('pet-donation')(dispatch)
-  }, [dispatch]);
 
   window.addEventListener('locationchange', checkLoginStatus);
   window.addEventListener('hashchange', checkLoginStatus);
