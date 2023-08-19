@@ -66,7 +66,7 @@ function App() {
                     />
                     <Route
                       path="pet-donation-request-submissions"
-                      element={<PetDonationReq  uests />}
+                      element={<PetDonationRequests />}
                     />
                   </Route>
                   <Route path="*" element={<NotFound />} />
