@@ -1,5 +1,11 @@
+import { Header } from "../Header/Header";
+
 function Layout() {
-  return <h1>Layout</h1>;
+  return (
+    <>
+      <Header/>
+    </>
+  );
 }
 
 export default Layout;
