@@ -16,7 +16,7 @@ import { a18n } from "../a18n";
 
 const defaultTheme = createTheme();
 
-export default function SignIn() {
+export default function SignIn({ setLoggedIn }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -38,8 +38,9 @@ export default function SignIn() {
         .post("http://64.226.92.178:8000/api/login", { email, password })
         .then((response) => {
           dispatch(updateUser(response.data));
-          localStorage.setItem("authToken", response.data.token);
-          navigate("/admin");
+          localStorage.setItem('authToken', response.data.token);
+          setLoggedIn(true)
+          navigate('/admin');
         })
         .catch((error) => {
           if (error.response.status === 401) {
