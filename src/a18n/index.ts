@@ -4,5 +4,9 @@ export const a18n = {
         emailLabel: 'Електронна адреса ' ,
         passwordLabel: 'Пароль' ,
         submitButton: 'Увійти' ,
+    },
+    request: {
+        comment: 'Текст коментаря',
+        saveComment: 'Зберегти'
     }
 }
