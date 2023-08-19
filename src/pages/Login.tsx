@@ -12,6 +12,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import axios from "axios";
 import { updateUser } from "../redux/auth/authslice";
 import { useNavigate } from "react-router-dom";
+import { a18n } from "../a18n";
 
 const defaultTheme = createTheme();
 
@@ -37,8 +38,8 @@ export default function SignIn() {
         .post("http://64.226.92.178:8000/api/login", { email, password })
         .then((response) => {
           dispatch(updateUser(response.data));
-          localStorage.setItem('authToken', response.data.token);
-          navigate('/admin');
+          localStorage.setItem("authToken", response.data.token);
+          navigate("/admin");
         })
         .catch((error) => {
           if (error.response.status === 401) {
@@ -67,7 +68,7 @@ export default function SignIn() {
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
-            Sign in
+            {a18n.login.title}
           </Typography>
           <Box
             component="form"
@@ -80,7 +81,7 @@ export default function SignIn() {
               required
               fullWidth
               id="email"
-              label="Email Address"
+              label={a18n.login.emailLabel}
               name="email"
               autoComplete="email"
               autoFocus
@@ -91,7 +92,7 @@ export default function SignIn() {
               required
               fullWidth
               name="password"
-              label="Password"
+              label={a18n.login.passwordLabel}
               type="password"
               id="password"
               autoComplete="current-password"
@@ -103,7 +104,7 @@ export default function SignIn() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+              {a18n.login.submitButton}
             </Button>
           </Box>
         </Box>
