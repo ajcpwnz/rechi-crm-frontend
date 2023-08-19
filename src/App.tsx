@@ -1,6 +1,7 @@
 import { Suspense, lazy, useEffect, useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
+import { getSubmissions } from './services/requests.ts'
 import { http } from './utils/http'
 
 import { updateUser } from "./redux/auth/authslice";
@@ -29,12 +30,18 @@ function App() {
       });
   }
 
+  useEffect(() => {
+    getSubmissions('donation')(dispatch)
+    getSubmissions('request')(dispatch)
+    getSubmissions('pet-donation')(dispatch)
+  }, [dispatch]);
+
   window.addEventListener('locationchange', checkLoginStatus)
   window.addEventListener('hashchange', checkLoginStatus)
 
   useEffect(() => {
     checkLoginStatus()
-  }, [])
+  }, [dispatch])
 
   return (
     <>
