@@ -5,6 +5,7 @@ import Box from '@mui/material/Box';
 import { NavList } from '../UI/nav-list/NavList';
 
 
+
 function Layout() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 480);
 
@@ -26,6 +27,7 @@ function Layout() {
       
       <Box sx={{paddingTop: '64px'}}>
         <Box sx={{padding: '10px'}}>
+          <Outlet />  
           <div style={{display: window.innerWidth > 480 ? "flex" : "block", gap: "32px"}}>
           <NavList/>
           <Outlet/>
