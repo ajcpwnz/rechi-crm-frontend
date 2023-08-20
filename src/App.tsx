@@ -4,6 +4,7 @@ import { useDispatch } from 'react-redux';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { SingleRequestPage } from './pages/SingleRequestPage/SingleRequestPage'
 import { http } from './utils/http'
+import CssBaseline from '@mui/material/CssBaseline';
 
 
 import { updateUser } from './redux/auth/authslice';
@@ -24,7 +25,7 @@ function App() {
   const checkLoginStatus =  useCallback(() => {
     http.get('/validate')
       .then((response) => {
-        dispatch(updateUser(response.data));
+        dispatch(updateUser(response.data.user));
         if (response.data) {
           setLoggedIn(true);
           setIsLoaded(true);
@@ -49,6 +50,7 @@ function App() {
     <>
 
  <ThemeProvider theme={defaultTheme}>
+   <CssBaseline />
       <Suspense>
         <Routes>
           {isLoaded ? (

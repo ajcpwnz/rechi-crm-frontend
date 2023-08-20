@@ -30,10 +30,6 @@ export default ({setLoggedIn}: SignInProps) => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
 
     const email = data.get("email");
     const password = data.get("password");
@@ -42,7 +38,7 @@ export default ({setLoggedIn}: SignInProps) => {
       axios
         .post("http://64.226.92.178:8000/api/login", { email, password })
         .then((response) => {
-          dispatch(updateUser(response.data));
+          dispatch(updateUser(response.data.user));
           localStorage.setItem('authToken', response.data.token);
           setLoggedIn(true)
           navigate('/admin');
