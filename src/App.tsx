@@ -5,8 +5,6 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { SingleRequestPage } from './pages/SingleRequestPage/SingleRequestPage'
 import { http } from './utils/http'
 import CssBaseline from '@mui/material/CssBaseline';
-
-
 import { updateUser } from './redux/auth/authslice';
 import Loader from './pages/Loader';
 import { DonationRequestsPage } from './pages/DonationRequestsPage/DonationRequestsPage';
@@ -25,7 +23,7 @@ function App() {
 
   const checkLoginStatus =  useCallback(() => {
     http.get('/validate')
-      .then((response) => {
+      .then((response:any) => {
         dispatch(updateUser(response.data.user));
         if (response.data) {
           setLoggedIn(true);
@@ -41,34 +39,32 @@ function App() {
   window.addEventListener('hashchange', checkLoginStatus);
 
   useEffect(() => {
-
     checkLoginStatus()
   }, [checkLoginStatus]);
 
   const defaultTheme = createTheme();
 
   return (
-    <>
+  <>
+      <ThemeProvider theme={defaultTheme}>
+        <CssBaseline />
+        <Suspense>
+          <Routes>
+            {isLoaded ? (
+              <>
+                {loggedIn ? (
+                  <>
+                    <Route path="/admin" element={<Layout />}>
+                      <Route index element={<RequestPage />} />
+                      <Route path="request-submissions" element={<RequestPage />} />
 
- <ThemeProvider theme={defaultTheme}>
-   <CssBaseline />
-      <Suspense>
-        <Routes>
-          {isLoaded ? (
-            <>
-              {loggedIn ? (
-                <>
-                  <Route path="/admin" element={<Layout />}>
-                    <Route index element={<RequestPage />} />
-                    <Route path="request-submissions" element={<RequestPage />} />
-
-                    <Route path="request/:id" element={<SingleRequestPage />} />
-                    <Route
-                      path="donation-request-submissions"
-                      element={<DonationRequestsPage />}
-                    />
-                    <Route
-                      path="donation-request-submission/:id"
+                      <Route path="request/:id" element={<SingleRequestPage />} />
+                      <Route
+                        path="donation-request-submissions"
+                        element={<DonationRequestsPage />}
+                      />
+                      <Route
+                        path="donation-request-submission/:id"
                       element={<DonationRequestPage />}
                     />
                     <Route
@@ -93,7 +89,7 @@ function App() {
         </Routes>
       </Suspense>
       </ThemeProvider>
-    </>
+   </>
   );
 }
 
