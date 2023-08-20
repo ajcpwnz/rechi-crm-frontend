@@ -1,7 +1,6 @@
 import React from 'react';
 import {AppBar, Toolbar, Typography, Tabs, Tab} from '@mui/material'; 
 import NotificationsIcon from '@mui/icons-material/Notifications';
-import VerticalTabs from '../vertical-tabs/VerticalTabs';
 import { DrawerComp } from '../drawer-comp/DrawerComp';
 
 export const Header = () => {
@@ -20,7 +19,6 @@ lineHeight: "40px"}}>rechi.crm</Typography>
 </Toolbar>
 </AppBar>
 </React.Fragment> 
-{window.innerWidth > 480 && <VerticalTabs/>}
         </>
     )
 }
