@@ -1,5 +1,5 @@
 import { Suspense, lazy, useEffect, useState, useCallback } from 'react';
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import { SingleRequestPage } from './pages/SingleRequestPage/SingleRequestPage'
@@ -19,8 +19,6 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
   const dispatch = useDispatch();
-  const location = useLocation();
-  const navigate = useNavigate();
 
   const checkLoginStatus =  useCallback(() => {
     http.get('/validate')
@@ -36,19 +34,12 @@ function App() {
       });
   }, [dispatch])
 
-  useEffect(() => {
-    setIsLoaded(true);
-
-    if (location.pathname != '/') {
-      checkLoginStatus()
-    }
-  }, [location.pathname]);
+  window.addEventListener('locationchange', checkLoginStatus);
+  window.addEventListener('hashchange', checkLoginStatus);
 
   useEffect(() => {
-    if (!loggedIn) {
-      navigate('/', { state: { from: location.pathname } });
-    }
-  }, [loggedIn, location.pathname, navigate]);
+    checkLoginStatus()
+  }, [checkLoginStatus]);
 
   const defaultTheme = createTheme();
 
