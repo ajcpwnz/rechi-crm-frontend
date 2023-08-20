@@ -1,18 +1,16 @@
 import React from 'react'
-import { AppBar, Toolbar, Typography, Tabs, Tab } from '@mui/material'
+import { AppBar, Toolbar} from '@mui/material'
 import { DrawerComp } from '../drawer-comp/DrawerComp'
+import logo from './logo.svg'
 
 export const Header = () => {
   return (
     <>
       <React.Fragment>
-        <AppBar sx={{ background: '#3888FF' }}>
+        <AppBar sx={{ background: '#3888FF', boxShadow: 'none' }}>
           <Toolbar>
             {window.innerWidth < 480 && <DrawerComp/>}
-            <Typography style={{
-              color: '#FFF', fontSize: '24px', fontWeight: 700,
-              lineHeight: '40px'
-            }}>rechi.crm</Typography>
+            <img src={logo} alt="RECHI.CRM" style={{ width: '152px', height: 'auto' }}/>
           </Toolbar>
         </AppBar>
       </React.Fragment>

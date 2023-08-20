@@ -64,7 +64,7 @@ export const Comments = ({ id }: CommentsProps) => {
     getComments(Number(id))(dispatch)
   }, [id, dispatch])
 
-  const comments = useSelector((state: RootState) => selectRequestComments(state, id))
+  const comments = useSelector((state: RootState) => selectRequestComments(state, Number(id)))
   const user = useSelector(selectCurrentUser);
 
   const [commentText, setCommentText] = useState('')

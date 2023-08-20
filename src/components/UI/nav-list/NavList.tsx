@@ -1,9 +1,8 @@
 import Box from '@mui/material/Box'
 import { OverridableComponent } from '@mui/material/OverridableComponent'
-import { ReactComponentElement, ReactNode } from 'react'
 import { NavLink } from 'react-router-dom'
 import styled from '@emotion/styled'
-import { Icon, SvgIconTypeMap } from '@mui/material'
+import { SvgIconTypeMap } from '@mui/material'
 import { Home } from '@mui/icons-material'
 
 
