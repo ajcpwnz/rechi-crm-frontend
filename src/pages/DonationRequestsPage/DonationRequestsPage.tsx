@@ -3,6 +3,8 @@ import Box from '@mui/material/Box'
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
+import { Definition } from '../../components/Definition.tsx'
+import { PageContent } from '../../components/Layout/PageContent.tsx'
 import { RootState } from '../../redux/store.ts'
 import { selectSubmissions, SubmissionFields } from '../../redux/requests/sumissionsSlice.ts'
 import { getSubmissions } from '../../services/requests.ts'
@@ -13,6 +15,7 @@ const Card = styled('div')({
   borderRadius: '10px',
   padding: '1rem'
 })
+
 
 const DonationRequestCard = ({ data }: { data: SubmissionFields }) => {
   const fields = JSON.parse(data.fields) as DonationRequestFields
@@ -27,7 +30,7 @@ const DonationRequestCard = ({ data }: { data: SubmissionFields }) => {
     </Box>
     <Box sx={{ display: 'flex', justifyContent: 'flex-start', flexDirection: 'column' }}>
       <p><b>{fields.name}</b></p>
-      <p>телефон: {fields.phone_number || fields.phone[0] || '-'}</p>
+      <Definition label="телефон" description={fields.phone_number || fields.phone}/>
       <p>телеграм: {fields.telegram_nickname || '-'}</p>
     </Box>
     {
@@ -86,8 +89,8 @@ const DonationRequestCard = ({ data }: { data: SubmissionFields }) => {
       <p><b>Коментар:</b></p>
       <p>{fields.comments}</p>
     </Box>
-    <Box sx={{display: 'flex', justifyContent: 'flex-end'}}>
-      <NavLink to={`/donation-request-submission/${data.id}`}>
+    <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+      <NavLink to={`/admin/donation-request-submission/${data.id}`}>
         <Button>МОДЕРУВАТИ</Button>
       </NavLink>
     </Box>
@@ -104,18 +107,20 @@ export const DonationRequestsPage = () => {
 
   const records = useSelector((state: RootState) => selectSubmissions(state, 'donation'))
 
-  return <div style={{
-    display: 'grid',
-    gridTemplateRows: 'auto',
-    gridTemplateColumns: '1fr',
-    gap: '1rem'
-  }}>
-    {
-      records.order.map(id => {
-        const record = records.records[id]
+  return <PageContent>
+    <div style={{
+      display: 'grid',
+      gridTemplateRows: 'auto',
+      gridTemplateColumns: '1fr',
+      gap: '1rem'
+    }}>
+      {
+        records.order.map(id => {
+          const record = records.records[id]
 
-        return  <DonationRequestCard data={record} key={id}/>
-      })
-    }
-  </div>
+          return <DonationRequestCard data={record} key={id}/>
+        })
+      }
+    </div>
+  </PageContent>
 }

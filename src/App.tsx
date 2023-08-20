@@ -27,11 +27,15 @@ function App() {
         dispatch(updateUser(response.data.user))
         if (response.data) {
           setLoggedIn(true)
-          setIsLoaded(true)
+          setTimeout(() => {
+            setIsLoaded(true)
+          }, 1000)
         }
       })
       .catch(() => {
-        setIsLoaded(true)
+        setTimeout(() => {
+          setIsLoaded(true)
+        }, 1000)
       })
   }, [dispatch])
 
