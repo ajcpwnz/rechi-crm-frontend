@@ -12,17 +12,17 @@ export const Definition = ({ label, description, hideEmpty }: {
   }
 
   const renderDescriptionText = () => {
-    if (!description) return '-'
+    if (empty) return '-'
 
     if (description.length === 1) {
-      return description[0]
+      return description![0]
     } else {
-      return <>{description.map((row, idx) => <p key={idx}>{row}</p>)}</>
+      return <>{description!.map((row, idx) => <p key={idx}>{row}</p>)}</>
     }
   }
 
   return <Box>
-    <p>{label}</p>
+    <p><b>{label}</b></p>
     <p>{renderDescriptionText()}</p>
   </Box>
 }

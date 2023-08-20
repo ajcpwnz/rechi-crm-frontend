@@ -23,6 +23,8 @@ const DonationRequestCard = ({ data }: { data: SubmissionFields }) => {
     return null
   }
 
+
+  console.warn('-<<<', fields.extra_items)
   return <Card>
     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
       <p>№{data.id}</p>
@@ -30,65 +32,37 @@ const DonationRequestCard = ({ data }: { data: SubmissionFields }) => {
     </Box>
     <Box sx={{ display: 'flex', justifyContent: 'flex-start', flexDirection: 'column' }}>
       <p><b>{fields.name}</b></p>
-      <Definition label="телефон" description={fields.phone_number || fields.phone}/>
-      <p>телеграм: {fields.telegram_nickname || '-'}</p>
+      <Definition label="Телефон" description={fields.phone_number || fields.phone}/>
+      <Definition label="Телеграм" description={fields.telegram_nickname}/>
     </Box>
+    <hr/>
     {
       fields.item_volume?.join() === 'до 3 речей'
-        ? <Box>
-          <p><b>Речі</b></p>
-          <p>{fields.item_list}</p>
-        </Box>
+        ? <Definition label="Речі" description={fields.item_list}/>
         :
         <Box>
-          <p><b>Жіночі речі</b></p>
-          <p>
-            {fields.female_clothes_items}
-          </p>
-          <p>{fields.female_clothes_params}</p>
-          <p>{fields.female_clothes_table_sizes}</p>
-          <p>{fields.female_shoe_sizes}</p>
-          <hr/>
-          <p><b>Чоловічі речі</b></p>
-          <p>
-            {fields.male_clothes_items}
-          </p>
-          <p>{fields.male_clothes_params}</p>
-          <p>{fields.male_clothes_table_sizes}</p>
-          <p>{fields.male_shoe_sizes}</p>
-          <hr/>
-          <p><b>Дитячі речі</b></p>
-          <p>
-            {fields.children_clothes_items}
-          </p>
-          <p>Зріст: {fields.height}</p>
-          <p>{fields.children_shoe_sizes}</p>
-          <hr/>
-          <p><b>Побутова техніка</b></p>
-          <p>{fields.household_tech_items}</p>
-          <p><b>Побутові товари</b></p>
-          <p>{fields.household_items}</p>
-          <hr/>
-          <p><b>Техніка</b></p>
-          <p>{fields.tech_items}</p>
-          <hr/>
-          <p><b>Дитячі товари</b></p>
-          <p>{fields.kids_items}</p>
+          <Definition label="Жіночий одяг" description={fields.female_clothes_items}/>
+          <Definition label="Параметри" description={fields.female_clothes_params}/>
+          <Definition label="Розміри" description={fields.female_clothes_table_sizes}/>
+          <Definition label="Розміри взуття" description={fields.female_shoe_sizes}/>
+          <Definition label="Чоловічий одяг" description={fields.male_clothes_items}/>
+          <Definition label="Параметри" description={fields.male_clothes_params}/>
+          <Definition label="Розміри" description={fields.male_clothes_table_sizes}/>
+          <Definition label="Розміри взуття" description={fields.male_shoe_sizes}/>
+          <Definition label="Дитячий одяг" description={fields.children_clothes_items}/>
+          <Definition label="Дитячий зріст" description={fields.height}/>
+          <Definition label="Розміри взуття" description={fields.children_shoe_sizes}/>
+          <Definition label="Побутова техніка" description={fields.household_tech_items}/>
+          <Definition label="Побутові товари" description={fields.household_items}/>
+          <Definition label="Техніка" description={fields.tech_items}/>
+          <Definition label="Дитячі товари" description={fields.kids_items}/>
         </Box>
-
     }
     <hr/>
-    <p><b>Додаткові речі</b></p>
-    <p>{fields.extra_items}</p>
+    <Definition label="Додаткові речі" description={fields.extra_items}/>
     <hr/>
-    <Box>
-      <p><b>Бажаний час відправки</b></p>
-      <p>{fields.preferred_delivery_date || fields.preferred_time}</p>
-    </Box>
-    <Box>
-      <p><b>Коментар:</b></p>
-      <p>{fields.comments}</p>
-    </Box>
+    <Definition label="Бажаний час відправки" description={fields.preferred_delivery_date || fields.preferred_time}/>
+    <Definition label="Коментар" description={fields.comments}/>
     <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
       <NavLink to={`/admin/donation-request-submission/${data.id}`}>
         <Button>МОДЕРУВАТИ</Button>
