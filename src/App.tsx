@@ -10,6 +10,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { updateUser } from './redux/auth/authslice';
 import Loader from './pages/Loader';
 import { DonationRequestsPage } from './pages/DonationRequestsPage/DonationRequestsPage';
+import { DonationRequestPage } from './pages/DonationRequestPage/DonationRequestPage';
 import { RequestPage } from './pages/RequestPage/RequestPage';
 import { PetDonationRequests } from './pages/PetDonationRequests/PetDonationRequests';
 
@@ -65,6 +66,10 @@ function App() {
                     <Route
                       path="donation-request-submissions"
                       element={<DonationRequestsPage />}
+                    />
+                    <Route
+                      path="donation-request-submission/:id"
+                      element={<DonationRequestPage />}
                     />
                     <Route
                       path="pet-donation-request-submissions"

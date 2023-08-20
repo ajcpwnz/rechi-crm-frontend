@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit'
 import { RootState } from '../store.ts'
 
 
@@ -19,18 +19,19 @@ interface PagedSubmission<G> {
     size: number
   }
 }
-type SubmissionsState = Record<SubmissionType,  PagedSubmission<SubmissionFields>>
+
+type SubmissionsState = Record<SubmissionType, PagedSubmission<SubmissionFields>>
 
 const initialState: SubmissionsState = {
- request: {
-   records: {},
-   order: [],
-   pagination: {
-     page: 0,
-     totalPages: 0,
-     size: 20
-   }
- },
+  request: {
+    records: {},
+    order: [],
+    pagination: {
+      page: 0,
+      totalPages: 0,
+      size: 20
+    }
+  },
   donation: {
     records: {},
     order: [],
@@ -54,7 +55,6 @@ const initialState: SubmissionsState = {
 export type SubmissionType = 'donation' | 'pet-donation' | 'request'
 
 
-
 interface PagedResponse<G> {
   currentPage: number
   rows: G[],
@@ -66,30 +66,41 @@ const submissionsSlice = createSlice({
   name: 'submissions',
   initialState,
   reducers: {
-   submissionsRetreived(state, action: PayloadAction<PagedResponse<SubmissionFields> & {type: SubmissionType}>) {
-     const newRecords = action.payload.rows.reduce<Record<string, SubmissionFields>>((obj, row) => {
-       obj[row.id] = row
-       return obj;
-     }, {});
+    submissionsRetreived(state, action: PayloadAction<PagedResponse<SubmissionFields> & { type: SubmissionType }>) {
+      const newRecords = action.payload.rows.reduce<Record<string, SubmissionFields>>((obj, row) => {
+        obj[row.id] = row
+        return obj
+      }, {})
 
 
-     state[action.payload.type].records = {
-       ...state[action.payload.type].records, ...newRecords
-     };
+      state[action.payload.type].records = {
+        ...state[action.payload.type].records, ...newRecords
+      }
 
-     state[action.payload.type].order = Object.keys(newRecords);
+      state[action.payload.type].order = Object.keys(state[action.payload.type].records)
 
-     state[action.payload.type].pagination.page = action.payload.currentPage;
-     state[action.payload.type].pagination.totalPages = action.payload.totalPages;
+      state[action.payload.type].pagination.page = action.payload.currentPage
+      state[action.payload.type].pagination.totalPages = action.payload.totalPages
 
-   }
-  }
+    },
+    submissionRetreived(state, action: PayloadAction<SubmissionFields>) {
+      state[action.payload.type].records = {
+        ...state[action.payload.type].records,
+        [action.payload.id]: action.payload
+      }
+
+      state[action.payload.type].order = Object.keys(state[action.payload.type].records)
+    }
+  },
 })
 
-export const { submissionsRetreived } = submissionsSlice.actions;
+export const { submissionsRetreived, submissionRetreived } = submissionsSlice.actions
 
-export const reducer = submissionsSlice.reducer;
+export const reducer = submissionsSlice.reducer
 
 export const selectSubmissions = (state: RootState, type: SubmissionType) => {
-  return  state.submissions[type]
+  return state.submissions[type]
+}
+export const selectSubmission = (state: RootState, id: number) => {
+  return state.submissions.donation.records[id] || state.submissions.request.records[id] || state.submissions['pet-donation'].records[id]
 }

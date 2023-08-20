@@ -24,16 +24,11 @@ function Layout() {
       <Header />
 
       <Box sx={{ paddingTop: '64px' }}>
-        <Box sx={{ padding: '10px' }}>
-          <div
-            style={{
-              display: window.innerWidth > 480 ? 'flex' : 'block',
-              gap: '32px',
-            }}
-          >
+        <Box sx={{ display: 'grid', gridTemplateColumns: '240px 1fr', backgroundColor: '#EFEFEF' }}>
             <NavList />
-            <Outlet />
-          </div>
+            <div style={{background: '#fff', height: 'calc(100vh - 64px)', overflowY: 'auto'}}>
+              <Outlet />
+            </div>
         </Box>
       </Box>
     </>

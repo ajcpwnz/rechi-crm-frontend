@@ -1,24 +1,21 @@
-import React from 'react';
-import {AppBar, Toolbar, Typography, Tabs, Tab} from '@mui/material'; 
-import NotificationsIcon from '@mui/icons-material/Notifications';
-import { DrawerComp } from '../drawer-comp/DrawerComp';
+import React from 'react'
+import { AppBar, Toolbar, Typography, Tabs, Tab } from '@mui/material'
+import { DrawerComp } from '../drawer-comp/DrawerComp'
 
 export const Header = () => {
   return (
     <>
       <React.Fragment>
-        <AppBar sx={{ background: '#FEFBFF' }}>
+        <AppBar sx={{ background: '#3888FF' }}>
           <Toolbar>
-          {window.innerWidth < 480 && <DrawerComp/>}
-<Typography style={{color: "#005AC1", fontSize: "24px", fontWeight: 700,
-lineHeight: "40px"}}>rechi.crm</Typography>
-
-<Tabs value={0} sx={{marginLeft: "auto"}}>
-    <Tab label={<NotificationsIcon sx={{fill: "#44474F"}}/>} value={0 } />
-</Tabs>
-</Toolbar>
-</AppBar>
-</React.Fragment> 
-        </>
-    )
+            {window.innerWidth < 480 && <DrawerComp/>}
+            <Typography style={{
+              color: '#FFF', fontSize: '24px', fontWeight: 700,
+              lineHeight: '40px'
+            }}>rechi.crm</Typography>
+          </Toolbar>
+        </AppBar>
+      </React.Fragment>
+    </>
+  )
 }

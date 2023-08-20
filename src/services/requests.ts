@@ -1,6 +1,6 @@
 import { Dispatch } from '@reduxjs/toolkit'
 import { http } from '../utils/http.ts'
-import { submissionsRetreived, SubmissionType } from '../redux/requests/sumissionsSlice.ts'
+import { submissionRetreived, submissionsRetreived, SubmissionType } from '../redux/requests/sumissionsSlice.ts'
 
 export const getSubmissions = (type: SubmissionType, page= 0, size= 20) => {
   return async (dispatch: Dispatch) => {
@@ -13,5 +13,13 @@ export const getSubmissions = (type: SubmissionType, page= 0, size= 20) => {
     };
 
     dispatch(submissionsRetreived(payload));
+  }
+}
+
+export const getSubmission = (id: number) => {
+  return async (dispatch: Dispatch) => {
+    const result = await http.get(`/submissions/details/${id}`);
+
+    dispatch(submissionRetreived(result.data));
   }
 }

@@ -81,7 +81,7 @@ export const Comments = ({ id }: CommentsProps) => {
 
   const { order, records } = comments;
 
-  return <Box sx={{ width: '300px', height: 'calc(100vh - 80px)', overflowY: 'auto' }}>
+  return <Box sx={{ width: '300px', height: 'calc(100vh - 64px)', overflowY: 'auto', backgroundColor: '#EFEFEF' }}>
     <form onSubmit={handleCommentSubmit}>
       <Box sx={{ display: 'flex', alignItems: 'center', mb: '1rem' }}>
         <TextField
