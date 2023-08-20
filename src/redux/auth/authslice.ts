@@ -28,7 +28,7 @@ const authSlice = createSlice({
     name: 'auth',
     initialState,
     reducers: {
-        updateUser: (state, action: PayloadAction<UserFields>) => {
+        updateUser: (state: any, action: PayloadAction<UserFields>) => {
             state.id = action.payload.id;
             state.display_name = action.payload.display_name;
             state.email = action.payload.email;
@@ -45,4 +45,4 @@ export const selectCurrentUser = (state: RootState) => ({
     display_name: state.auth.display_name,
     id: state.auth.id,
     email: state.auth.email
-})
+});

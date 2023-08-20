@@ -46,10 +46,11 @@ const NavLinkStyled = styled(NavLink)({
     },
 
     '&:hover': {
-    borderRadius: "12px",
-    backgroundColor: "#44474F", 
+        borderRadius: "12px",
+        backgroundColor: "#44474F", 
+        color: '#FFF'
     }
-})
+});
 
 const NavListStyled = styled('ul')({
     paddingLeft: 0,
@@ -58,7 +59,4 @@ const NavListStyled = styled('ul')({
     flexDirection: "column",
     rowGap: "12px",
     width: "240px",
-})
-
-
-
+});
