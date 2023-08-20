@@ -2,7 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../store.ts'
 
 
-interface SubmissionFields {
+export interface SubmissionFields {
   id: number;
   fields: string;
   createdAt: string;

@@ -63,7 +63,7 @@ function App() {
 
                     <Route path="request/:id" element={<SingleRequestPage />} />
                     <Route
-                      path=""
+                      path="donation-request-submissions"
                       element={<DonationRequestsPage />}
                     />
                     <Route
