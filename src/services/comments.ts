@@ -1,34 +1,16 @@
-import { Dispatch } from '@reduxjs/toolkit'
-import { commentsRetreived, Comment, ListCommentsPayload } from '../redux/comments/commentsSlice.ts'
 import { http } from '../utils/http.ts'
+import { Comment } from '../state/comments.ts'
 
-export const getComments = (requestId: number) => {
-  return async (dispatch: Dispatch) => {
-    const result = await http.get(`/comments/by-request/${requestId}`);
+export const getComments = async (requestId: number) => {
+  const result = await http.get(`/comments/by-request/${requestId}`)
 
-    const payload = {
-      requestId,
-      comments: result.data.comments
-    };
-
-
-    dispatch(commentsRetreived(payload));
-  }
+  return result.data.comments
 }
 
-export const createComment = (text: string, requestId: number) => {
-  return async (dispatch: Dispatch) => {
-    const result = await http.post(`/comments/new`, {
-      requestId, text
-    });
+export const createComment = async (text: string, requestId: number) => {
+  const result = await http.post(`/comments/new`, {
+    requestId, text
+  })
 
-
-    const payload: ListCommentsPayload = {
-      requestId,
-      comments: [result.data.comment as Comment]
-    };
-
-
-    dispatch(commentsRetreived(payload));
-  }
+  return [result.data.comment as Comment]
 }

@@ -1,12 +1,8 @@
-import { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { styled } from '@mui/system';
-import { RootState } from '../../redux/store.ts';
-import {
-  SubmissionFields,
-  selectSubmissions,
-} from '../../redux/requests/sumissionsSlice.ts';
-import { getSubmissions } from '../../services/requests.ts';
+import { styled } from '@mui/system'
+import { useRecoilValue } from 'recoil'
+import useAsyncEffect from 'use-async-effect'
+import { RequestSubmission, selectSubmissionsByType, useUpdateSubmissions } from '../../state/submissions.ts'
+import { getSubmissions } from '../../services/requests.ts'
 
 interface RequestFields {
   help_requirements: string[];
@@ -32,10 +28,12 @@ interface RequestFields {
   clothes_family_member_params: string[];
 }
 
-const RequestCard = ({ data }: { data: SubmissionFields }) => {
+const RequestCard = ({ data }: { data: RequestSubmission }) => {
   const fields = JSON.parse(data.fields) as RequestFields;
+
+
   if (!fields) {
-    return null;
+    return null
   }
 
   return (
@@ -66,15 +64,15 @@ const RequestCard = ({ data }: { data: SubmissionFields }) => {
         <Button>Модерувати</Button>
       </CardItem>
     </CardList>
-  );
-};
+  )
+}
 
 const CardList = styled('div')({
   display: 'flex',
   flexWrap: 'wrap',
   justifyContent: 'center',
   gap: 16,
-});
+})
 
 const CardItem = styled('div')({
   display: 'flex',
@@ -85,29 +83,29 @@ const CardItem = styled('div')({
   padding: 16,
   border: '1px solid #C4C6D0',
   borderRadius: 8,
-});
+})
 
 const StatusInfo = styled('div')({
   display: 'flex',
   justifyContent: 'space-between',
   fontSize: 14,
-});
+})
 
 const NameInfo = styled('div')({
   display: 'flex',
   flexDirection: 'column',
-});
+})
 
 const Name = styled('p')({
   fontSize: 20,
   fontWeight: 500,
   color: '#1B1B1F',
-});
+})
 
 const City = styled('p')({
   fontSize: 16,
   color: '#44474F',
-});
+})
 
 const SocialInfo = styled('div')({
   display: 'flex',
@@ -119,17 +117,17 @@ const SocialInfo = styled('div')({
   borderBottom: '1px solid #C4C6D0',
 
   fontSize: 12,
-});
+})
 
 const SocialInfoItem = styled('div')({
   display: 'flex',
   justifyContent: 'space-between',
-});
+})
 
 const TextInfo = styled('div')({
   fontSize: 16,
   color: '#44474F',
-});
+})
 
 const Button = styled('button')({
   width: 233,
@@ -140,26 +138,26 @@ const Button = styled('button')({
   backgroundColor: '#D8E2FF',
   boxShadow:
     '0px 3px 1px -2px rgba(0, 0, 0, 0.20), 0px 1px 5px 0px rgba(0, 0, 0, 0.12)',
-});
+})
 
 export const RequestPage = () => {
-  const dispatch = useDispatch();
+  const updateSubmissions = useUpdateSubmissions()
 
-  useEffect(() => {
-    getSubmissions('request')(dispatch);
-  }, [dispatch]);
+  useAsyncEffect(async () => {
+    const data = await getSubmissions('request')
 
-  const records = useSelector((state: RootState) =>
-    selectSubmissions(state, 'request')
-  );
+    updateSubmissions(data)
+  }, [updateSubmissions])
+
+  const records = useRecoilValue(selectSubmissionsByType('request'))
 
   return (
     <CardList>
       {records.order.map((id) => {
-        const data = records.records[id];
+        const data = records.records[id] as RequestSubmission;
 
-        return <RequestCard key={id} data={data} />;
+        return <RequestCard key={id} data={data}/>
       })}
     </CardList>
-  );
-};
+  )
+}

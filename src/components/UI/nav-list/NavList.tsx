@@ -51,13 +51,13 @@ const MenuItem = ({ to, label, active, icon: Icon }: MenuItemProps) => {
 
 const menuItems = [
   {
-    to: 'requests',
+    to: '/admin/request-submissions',
     label: 'Заявки',
     iconComponent: Home
   },
   {
-    to: 'requests',
-    label: 'Заявки',
+    to: '/admin/donation-request-submissions',
+    label: 'Заявки від донорів',
     iconComponent: Home
   }
 ]

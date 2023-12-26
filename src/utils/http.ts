@@ -1,7 +1,9 @@
 import axios from "axios";
 
+export const BASE_API_URL = 'http://localhost:8000/api'
+
 const client = axios.create({
-  baseURL: 'http://64.226.92.178:8000/api',
+  baseURL: BASE_API_URL,
   timeout: 6000,
 });
 

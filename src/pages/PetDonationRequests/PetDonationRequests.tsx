@@ -1,19 +1,20 @@
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { RootState } from '../../redux/store.ts'
-import { selectSubmissions } from '../../redux/requests/sumissionsSlice.ts'
+import { useRecoilValue } from 'recoil'
+import { selectSubmissionsByType, useUpdateSubmissions } from '../../state/submissions.ts'
+import useAsyncEffect from 'use-async-effect'
 import { getSubmissions } from '../../services/requests.ts'
 
 export const PetDonationRequests = () => {
-  const dispatch = useDispatch();
+  const updateSubmissions = useUpdateSubmissions()
 
-  useEffect(() => {
-    getSubmissions('pet-donation')(dispatch)
-  }, [dispatch])
+  useAsyncEffect(async () => {
+    const data = await getSubmissions('pet-donation')
 
-  const records = useSelector((state: RootState) => selectSubmissions(state, 'pet-donation'));
+    updateSubmissions(data)
+  }, [updateSubmissions])
+
+  const records = useRecoilValue(selectSubmissionsByType('pet-donation'))
 
   return <div>
     {JSON.stringify(records)}
   </div>
-};
+}

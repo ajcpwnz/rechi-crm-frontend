@@ -1,18 +1,18 @@
 import { styled } from '@mui/material'
 import Button from '@mui/material/Button'
 import TextField from '@mui/material/TextField'
-import { FormEvent, useCallback, useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { selectCurrentUser } from '../redux/auth/authslice.ts'
+import { FormEvent, useCallback, useState } from 'react'
+import { useRecoilValue } from 'recoil'
+import useAsyncEffect from 'use-async-effect'
+import { useRequestComments, useUpdateComments } from '../state/comments.ts'
+import { __authUser__ } from '../state/auth.ts'
 import { a18n } from '../a18n'
-import { selectRequestComments } from '../redux/comments/commentsSlice.ts'
-import { RootState } from '../redux/store.ts'
 import { createComment, getComments } from '../services/comments.ts'
 import Box from '@mui/material/Box'
 
 
 interface CommentsProps {
-  id: string
+  id: number;
 }
 
 
@@ -58,28 +58,32 @@ const Comment = ({ text, author, createdAt, local }: CommentProps) => {
 }
 
 export const Comments = ({ id }: CommentsProps) => {
-  const dispatch = useDispatch()
+  const updateComments = useUpdateComments()
 
-  useEffect(() => {
-    getComments(Number(id))(dispatch)
-  }, [id, dispatch])
+  useAsyncEffect(async () => {
+    const comments = await getComments(Number(id))
 
-  const comments = useSelector((state: RootState) => selectRequestComments(state, Number(id)))
-  const user = useSelector(selectCurrentUser);
+    updateComments(id, comments)
+  }, [id, updateComments])
+
+  const comments = useRequestComments(id)
+
+  const user = useRecoilValue(__authUser__)
 
   const [commentText, setCommentText] = useState('')
 
-  const handleCommentSubmit = useCallback((e: FormEvent<HTMLFormElement>) => {
+  const handleCommentSubmit = useCallback(async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    createComment(commentText, Number(id))(dispatch)
+    const result = await createComment(commentText, Number(id))
+    updateComments(id, result)
     setCommentText('')
-  }, [commentText])
+  }, [commentText, updateComments])
 
-  if(!comments) {
+  if (!comments) {
     return null
   }
 
-  const { order, records } = comments;
+  const { order, records } = comments
 
   return <Box sx={{ width: '300px', height: 'calc(100vh - 64px)', overflowY: 'auto', backgroundColor: '#EFEFEF' }}>
     <form onSubmit={handleCommentSubmit}>

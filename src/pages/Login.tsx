@@ -1,73 +1,69 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import Box from "@mui/material/Box";
-import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import axios from "axios";
-import { updateUser } from "../redux/auth/authslice";
-import { useNavigate } from "react-router-dom";
-import { a18n } from "../a18n";
+import React, { useState } from 'react'
+import Avatar from '@mui/material/Avatar'
+import Button from '@mui/material/Button'
+import CssBaseline from '@mui/material/CssBaseline'
+import TextField from '@mui/material/TextField'
+import Box from '@mui/material/Box'
+import LockOutlinedIcon from '@mui/icons-material/LockOutlined'
+import Typography from '@mui/material/Typography'
+import Container from '@mui/material/Container'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import axios from 'axios'
+import { useNavigate } from 'react-router-dom'
+import { BASE_API_URL } from '../utils/http.ts'
+import { useUpdateUser } from '../state/auth.ts'
+import { a18n } from '../a18n'
 
-const defaultTheme = createTheme();
+const defaultTheme = createTheme()
 
 
-interface SignInProps {
-  setLoggedIn: (bool: boolean) => void
-}
+export default () => {
+  const navigate = useNavigate()
 
-export default ({setLoggedIn}: SignInProps) => {
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-
-  const [isFormValid, setIsFormValid] = useState(false);
+  const [isFormValid, setIsFormValid] = useState(false)
+  const updateUser = useUpdateUser()
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    event.preventDefault()
+    const data = new FormData(event.currentTarget)
 
-    const email = data.get("email");
-    const password = data.get("password");
+    const email = data.get('email')
+    const password = data.get('password')
 
     if (email && password) {
       axios
-        .post("http://64.226.92.178:8000/api/login", { email, password })
+        .post(`${BASE_API_URL}/login`, { email, password })
         .then((response) => {
-          dispatch(updateUser(response.data.user));
-          localStorage.setItem('authToken', response.data.token);
-          setLoggedIn(true)
-          navigate('/admin');
+          updateUser(response.data.user)
+
+          navigate('/admin')
         })
         .catch((error) => {
           if (error.response.status === 401) {
-            setIsFormValid(true);
+            setIsFormValid(true)
           }
-          console.error(error);
-        });
+
+          console.error(error)
+        })
     } else {
-      setIsFormValid(false);
+      setIsFormValid(false)
     }
-  };
+  }
 
   return (
     <ThemeProvider theme={defaultTheme}>
       <Container component="main" maxWidth="xs">
-        <CssBaseline />
+        <CssBaseline/>
         <Box
           sx={{
             marginTop: 8,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-            <LockOutlinedIcon />
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon/>
           </Avatar>
           <Typography component="h1" variant="h5">
             {a18n.login.title}
@@ -112,5 +108,5 @@ export default ({setLoggedIn}: SignInProps) => {
         </Box>
       </Container>
     </ThemeProvider>
-  );
+  )
 }

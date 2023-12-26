@@ -1,12 +1,12 @@
 import { styled, Button } from '@mui/material'
 import Box from '@mui/material/Box'
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
 import { NavLink } from 'react-router-dom'
+import { useRecoilValue } from 'recoil'
+import { DonationSubmission, selectSubmissionsByType, useUpdateSubmissions } from '../../state/submissions.ts'
+import useAsyncEffect from 'use-async-effect'
+import { RechiInput } from '../../components/RechiInput.tsx'
 import { Definition } from '../../components/Definition.tsx'
 import { PageContent } from '../../components/Layout/PageContent.tsx'
-import { RootState } from '../../redux/store.ts'
-import { selectSubmissions, SubmissionFields } from '../../redux/requests/sumissionsSlice.ts'
 import { getSubmissions } from '../../services/requests.ts'
 import { DonationRequestFields } from '../types.ts'
 
@@ -17,14 +17,13 @@ const Card = styled('div')({
 })
 
 
-const DonationRequestCard = ({ data }: { data: SubmissionFields }) => {
+const DonationRequestCard = ({ data }: { data: DonationSubmission }) => {
   const fields = JSON.parse(data.fields) as DonationRequestFields
   if (!fields) {
     return null
   }
 
 
-  console.warn('-<<<', fields.extra_items)
   return <Card>
     <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
       <p>№{data.id}</p>
@@ -73,13 +72,15 @@ const DonationRequestCard = ({ data }: { data: SubmissionFields }) => {
 
 
 export const DonationRequestsPage = () => {
-  const dispatch = useDispatch()
+  const updateSubmissions = useUpdateSubmissions()
 
-  useEffect(() => {
-    getSubmissions('donation')(dispatch)
-  }, [dispatch])
+  useAsyncEffect(async () => {
+    const data = await getSubmissions('donation')
 
-  const records = useSelector((state: RootState) => selectSubmissions(state, 'donation'))
+    updateSubmissions(data)
+  }, [updateSubmissions])
+
+  const records = useRecoilValue(selectSubmissionsByType('donation'));
 
   return <PageContent>
     <div style={{
@@ -88,13 +89,18 @@ export const DonationRequestsPage = () => {
       gridTemplateColumns: '1fr',
       gap: '1rem'
     }}>
-      {
-        records.order.map(id => {
-          const record = records.records[id]
+      <div>
+        <RechiInput label="Доступні речі" onChange={items => console.warn(items)}/>
+      </div>
+      <div>
+        {
+          records.order.map(id => {
+            const record = records.records[id] as DonationSubmission;
 
-          return <DonationRequestCard data={record} key={id}/>
-        })
-      }
+            return <DonationRequestCard data={record} key={id}/>
+          })
+        }
+      </div>
     </div>
   </PageContent>
 }

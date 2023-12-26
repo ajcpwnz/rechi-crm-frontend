@@ -1,11 +1,10 @@
 import { styled } from '@mui/material'
 import Box from '@mui/material/Box'
-import { useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useRecoilValue } from 'recoil'
+import { useId } from '../../hooks/useId.ts'
+import useAsyncEffect from 'use-async-effect'
+import { DonationSubmission, selectSubmissionById, useUpdateSubmission } from '../../state/submissions.ts'
 import { PageContent } from '../../components/Layout/PageContent.tsx'
-import { RootState } from '../../redux/store.ts'
-import { selectSubmission, SubmissionFields } from '../../redux/requests/sumissionsSlice.ts'
 import { getSubmission } from '../../services/requests.ts'
 import { DonationRequestFields } from '../types.ts'
 
@@ -15,7 +14,7 @@ const Card = styled('div')({
   padding: '1rem'
 })
 
-const DonationRequestForm = ({ data }: { data: SubmissionFields }) => {
+const DonationRequestForm = ({ data }: { data: DonationSubmission }) => {
   const fields = JSON.parse(data.fields) as DonationRequestFields
   if (!fields) {
     return null
@@ -92,14 +91,18 @@ const DonationRequestForm = ({ data }: { data: SubmissionFields }) => {
 
 
 export const DonationRequestPage = () => {
-  const dispatch = useDispatch()
-  const { id } = useParams()
+  const [_, id] = useId();
 
-  useEffect(() => {
-    getSubmission(Number(id))(dispatch)
-  }, [dispatch])
+  const updateSubmission = useUpdateSubmission();
 
-  const record = useSelector((state: RootState) => selectSubmission(state, Number(id)))
+
+  useAsyncEffect(async () => {
+    const data = await getSubmission(id);
+
+    updateSubmission(data);
+  }, [updateSubmission])
+
+  const record = useRecoilValue(selectSubmissionById(id))
 
   return record ? <PageContent><DonationRequestForm data={record} key={id}/></PageContent> : null
 
